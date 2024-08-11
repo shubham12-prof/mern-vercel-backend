@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-const courseRoutes = require('./routes/course');
+
 require('dotenv').config();
 
 const app = express();
@@ -11,17 +11,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  ssl: true,
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+app.get('/', (req, res) => {
+  res.send("Welcome")
 })
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
-
 app.use('/api/auth', authRoutes);
-app.use('/api/courses', courseRoutes);
+
 
 app.get('/api/courses', (req, res) => {
   const courses = [
