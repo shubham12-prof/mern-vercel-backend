@@ -3,15 +3,17 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
+const courseRoutes = require('./routes/course');
 
 require('dotenv').config();
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
 app.use(cors({
-  origin: 'https://mern-vercel-free.vercel.app/',
+  origin: [ 'https://mern-vercel-free.vercel.app',
+    'https://mern-vercel-frontend.vercel.app',
+    'http://localhost:3000'],
   credentials: true
 }));
 
@@ -23,7 +25,7 @@ app.get('/', (req, res) => {
   res.send("Welcome")
 })
 app.use('/api/auth', authRoutes);
-
+app.use('/api/courses', courseRoutes);
 
 app.get('/api/courses', (req, res) => {
   const courses = [
