@@ -9,6 +9,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 app.use(cors({
   origin: 'https://mern-vercel-free.vercel.app/',
   credentials: true
